@@ -1,6 +1,5 @@
 #include<iostream>
-#include<cstring>
-#include<cstdlib>
+
 using namespace std;
 struct node{
     string label;
@@ -8,104 +7,96 @@ struct node{
     node* child[10];
 };
 
-class booktree{
+class book{
     private:
     node* root;
     public:
-    booktree(){
+    book(){
         root=nullptr;
+        
     }
-    void createtree();
+    void createbook();
     void display(node* nod);
     node* getroot(){
         return root;
     }
 };
 
-void booktree::createtree(){
+void book::createbook(){
     int totalchapter;
     root=new node();
-    cout<<"\nEnter the name of the book : ";
+    cout<<"\nEnter the name of book : ";
     cin>>root->label;
-    cout<<"\nEnter the number of chapters in the book : ";
+    cout<<"\nEnter the number of chapters present in the book : ";
     cin>>totalchapter;
     root->child_count=totalchapter;
     
     for(int i=0;i<totalchapter;i++){
         root->child[i]=new node();
-        
-        cout<<"\nEnter the name of chapter : ";
+        cout<<"\nEnter the name of chapters in the book "<<root->label<<":";
         cin>>root->child[i]->label;
-        
-        cout<<"\nEnter the number of sections present in the chapter "<<i+1<<" : ";
+        cout<<"\nEnter the number of section present in the chapter "<<root->child[i]<<": ";
         cin>>root->child[i]->child_count;
         for(int j=0;j<root->child[i]->child_count;j++){
             root->child[i]->child[j]=new node();
-            cout<<"\nEnter the name of section : ";
+            cout<<"\nEnter the name of section present in the chapter "<<root->child[i]<<": ";
             cin>>root->child[i]->child[j]->label;
-            
-            cout<<"\nEnter the number of subsections present in the section "<<j+1<<" : ";
+            cout<<"\nEnter the number of subsections present in the section "<<root->child[i]->child[j]->label<<" : ";
             cin>>root->child[i]->child[j]->child_count;
-            
             for(int k=0;k<root->child[i]->child[j]->child_count;k++){
                 root->child[i]->child[j]->child[k]=new node();
-                cout<<"\nEnter the name of subsection : ";
+                cout<<"\nEnter the name of subsection present in the section "<<root->child[i]->child[j]->label<<" : ";
                 cin>>root->child[i]->child[j]->child[k]->label;
                 
             }
         }
     }
-    
 }
 
-void booktree::display(node* nod){
-    if(nod!=nullptr){
-        cout<<"\n\n-------Book Hierarchy----------";
-        cout<<"\nBook Title :"<<nod->label;
-        
-        for(int i=0;i<nod->child_count;i++){
-            cout<<"\n\nChapter "<<i+1<<" : "<<nod->child[i]->label;
-            cout<<"\n    Sections : "<<endl;
-            
-            for(int j=0;j<nod->child[i]->child_count;j++){
-                cout<<"\n \t Section "<<j+1<<" : "<<nod->child[i]->child[j]->label<<endl;
-                cout<<"\n             Subsections : "<<endl;
-                for(int k=0;k<nod->child[i]->child[j]->child_count;k++){
-                    cout<<"\n\t\t Subsection  "<<k+1<<" : "<<nod->child[i]->child[j]->child[k]->label;
-                }
+void book::display(node* nod){
+    if(nod==nullptr){
+        cout<<"\nEmpty";
+        return;
+    }
+    cout<<"\n\nBook Hierarchy ---\n";
+    cout<<"\nName of Book : "<<root->label<<endl;
+    for(int i=0;i<root->child_count;i++){
+        cout<<endl;
+        cout<<"Chapter "<<i+1<<" : "<<root->child[i]->label;
+        for(int j=0;j<root->child[i]->child_count;j++){
+            cout<<endl;
+            cout<<"Section"<<j+1<<root->child[i]->child[j]->label;
+            for(int k=0;k<root->child[i]->child[j]->child_count;k++){
+                cout<<endl;
+                cout<<"Subsection"<<k+1<<root->child[i]->child[j]->child[k]->label;
             }
+            
         }
-    }else{
-        cout<<"\nNo book data available.Please create a book first.";
     }
 }
-int main()
-{
-    int choice;
-    booktree bt;
-    
-    while(true){
-        cout<<"\n--------------------------------";
-        cout<<"\n      Book Tree Menu         ";
-        cout<<"\n----------------------------------";
-        cout<<"\n1.Create Book";
-        cout<<"\n2.Display Book";
-        cout<<"\n3.Exit";
-        cout<<"\nEnter your Choice : ";
-        cin>>choice;
-        switch(choice){
+int main(){
+    book b;
+    int ch=0;
+    while(ch!=3){
+        cout<<"\n\nMenu";
+        cout<<"\n1.createbook";
+        cout<<"\n2.display";
+        cout<<"\nExit";
+        cout<<"\nEnter your choice :";
+        cin>>ch;
+        
+        switch(ch){
             case 1:
-            bt.createtree();
+            b.createbook();
             break;
             case 2:
-            bt.display(bt.getroot());
+            b.display(b.getroot());
             break;
             case 3:
             exit(0);
             break;
             default:
-            cout<<"enter the proper choice";
+            cout<<"Enter the proper choice ";
         }
     }
-    return 0;
 }
